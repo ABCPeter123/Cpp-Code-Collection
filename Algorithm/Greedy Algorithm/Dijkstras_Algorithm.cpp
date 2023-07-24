@@ -49,7 +49,7 @@ struct Dijkstra {
 		src = SRC;
 		for (int i = 0; i < V; i++) direction.push_back(i);
 
-		for (int i = 01; i < V; i++) seen.push_back(false);
+		for (int i = 0; i < V; i++) seen.push_back(false);
 
 		for (int i = 0; i < V; i++) distance.push_back(INT_MAX);
 	}
