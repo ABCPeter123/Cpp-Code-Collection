@@ -1,0 +1,2 @@
+"" --> const char pointer!!!
+If you want char comparison with a variable and a const char, use '' around the char.

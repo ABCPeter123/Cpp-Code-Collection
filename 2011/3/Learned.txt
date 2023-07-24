@@ -1,0 +1,5 @@
+1. ALWAYS ALWAYS REMEMBER that whenever you have a loop that requires a local variable to run through algorithms a few times, remember to always initialize them with 0 
+inside the loop at the beginning.
+2. If you find any bugs, remember that first use cout to check output, then check syntax, logic, and other errors, then check algorithmic errors
+3. in logic operators, remember to use () to enclose whatever logic statements you want to be in 1 piece just in case.
+4. Always make sure that your values are correct when doing complex algorithms.
