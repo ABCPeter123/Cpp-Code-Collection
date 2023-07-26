@@ -100,8 +100,8 @@ struct Dijkstra {
 // 		dijkstra.reset(v, i + 1);
 // 	}
 	
-// 	// Dijkstra dijkstra(v, 2);
-// 	// dijkstra.minimum_paths(adjacency_matrix);
+// 	// Dijkstra dijkstra(v, 0);
+//     // dijkstra.minimum_paths(adjacency_matrix);
 // 	// for (int i = 0; i < v; i++) {
 // 	// 	dijkstra.print_distance(i);
 // 	// 	dijkstra.print_path(i);
