@@ -1,92 +1,61 @@
 #include <iostream>
-#include <algorithm>
 #include <vector>
 using namespace std;
 
-class Graph {
+class Solution {
 public:
-    int V;
-    vector<vector<int>> edgelist;
-
-    Graph(int v) {
-        V = v;
+    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start_node, int end_node) {
+        vector<double> node_prob;
+        for (int i = 0; i < n; i++) {
+            node_prob.push_back(0.0);
+        }
+        node_prob[start_node] = 1.0;
+        bool seen[n];
+        for (int i = 0; i < n; i++) seen[i] = false;
+        int current = start_node;
+        while (seen[end_node] == false) {
+            seen[current] = true;
+            vector<int> index = edge(edges, seen, current);
+            double max_prob = 0;
+            int max_node = current;
+            double new_prob = 0;
+            for (auto i : index) {
+                if (edges[i][0] == current) {
+                    if (seen[edges[i][1]] == false) {
+                        new_prob = node_prob[current] * succProb[i];
+                        if (new_prob > node_prob[edges[i][1]]) node_prob[edges[i][1]] = new_prob;
+                    }
+                } else {
+                    if (seen[edges[i][0]] == false) {
+                        new_prob = node_prob[current] * succProb[i];
+                        if (new_prob > node_prob[edges[i][0]]) node_prob[edges[i][0]] = new_prob;
+                    }
+                }
+            }
+            for (int i = 0; i < n; i++) {
+                if (node_prob[i] > max_prob && seen[i] == false) {
+                    max_prob = node_prob[i];
+                    max_node = i;
+                }
+            }
+            current = max_node;
+        }
+        return node_prob[end_node];
     }
 
-    void add_edge(int src, int dest, int weight) {
-        edgelist.push_back({weight, src, dest});
-    }
-
-    void remove_edge() {
-        edgelist.erase(edgelist.end());
+    vector<int> edge(vector<vector<int>> edges, bool seen[], int node) {
+        vector<int> array;
+        for (int i = 0; i < edges.size(); i++) {
+            if (edges[i][0] == node && seen[edges[i][1]] == false) array.push_back(i);
+            else if (edges[i][1] == node && seen[edges[i][0]] == false) array.push_back(i);
+        }
+        return array;
     }
 };
-
-class Union_Find {
-public:
-    vector<int> parent;
-
-    Union_Find(int V) {
-        for (int i = 0; i < V; i++) {
-            parent.push_back(i);
-        }
-    }
-
-    int find(int i) {
-        if (parent[i] == i)
-            return i;
-        return find(parent[i]);
-    }
-
-    void Union(int x, int y) {
-        parent[x] = y;
-    }
-
-    bool isCycle(Graph graph, int index) {
-        int x = find(graph.edgelist[index][1]);
-        int y = find(graph.edgelist[index][2]);
-
-        if (x == y) return true;
-
-        Union(x, y);
-        return false;
-    }
-
-};
-
-void krustals_mst(Graph graph) {
-    sort(graph.edgelist.begin(), graph.edgelist.end());
-    int answer = 0;
-    Graph temp(graph.V);
-    Union_Find ufa(graph.V);
-    for (auto edge : graph.edgelist) {
-        int weight = edge[0];
-        int x = edge[1];
-        int y = edge[2];
-
-        if (temp.edgelist.size() == temp.V - 1) break;
-
-        temp.add_edge(x, y, weight);
-
-        if (ufa.isCycle(temp, temp.edgelist.size() - 1)) {
-            temp.remove_edge();
-        }
-        else {
-            answer += weight;
-            cout << "Edge " << x << " to " << y << " is included!" << endl;
-        }
-    }
-    
-    cout << "The minimum cost of the spanning tree is " << answer << endl;
-
-}
 
 int main() {
-    Graph g(4);
-    g.add_edge(0, 1, 10);
-    g.add_edge(1, 3, 15);
-    g.add_edge(2, 3, 4);
-    g.add_edge(2, 0, 6);
-    g.add_edge(0, 3, 5);
- 
-    krustals_mst(g);
+    Solution solution;
+    vector<vector<int>> edges = {{0, 1}, {0, 5}, {1, 5}, {5, 7}, {5, 4}, {4, 7}, {4, 2}, {2, 7}, {1, 2}, {1, 7}, {1, 3}, {3, 2}};
+    vector<double> succProb = {0.8, 0.7, 0.1, 0.3, 0.4, 0.8, 0.3, 0.5, 0.7, 0.2, 0.3, 0.2};
+    cout << solution.maxProbability(8, edges, succProb, 0, 7) << endl;
 }
