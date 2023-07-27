@@ -10,10 +10,6 @@ void LIS(vector<int> array) {
     int max = 0;
     int max_index = -1;
     for (int i = 1; i < array.size(); i++) {
-        for (auto i : lis) {
-            for (auto j : i) cout << j << " ";
-            cout << endl;
-        }
         length.push_back(1);
         int index = -1;
         for (int j = 0; j < i; j++) {
@@ -41,7 +37,7 @@ void LIS(vector<int> array) {
     for (auto i : lis[max_index]) cout << i << " ";
 }
 
-// int main() {
-//     vector<int> array = {10, 22, 9, 33, 21, 50, 41, 60};
-//     LIS(array);
-// }
+int main() {
+    vector<int> array = {10, 22, 9, 33, 21, 50, 41, 60};
+    LIS(array);
+}
