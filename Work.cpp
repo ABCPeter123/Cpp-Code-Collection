@@ -26,6 +26,14 @@ public:
         int x = grid.first;
         int y = grid.second;
         if (board[x][y] != word[i]) return;
+        for (auto i : check) {
+            for (auto j : i) {
+                if (j == false) cout << ". ";
+                else cout << "x ";
+            }
+            cout << "\n";
+        }
+        cout << "\n";
         if (i == word.size() - 1 && word[i] == board[x][y]) {
             found = true;
             return;
