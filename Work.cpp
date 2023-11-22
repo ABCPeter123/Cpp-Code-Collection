@@ -2,64 +2,47 @@
 #include <vector>
 using namespace std;
 
-class Solution {
-public:
-    bool exist(vector<vector<char>>& board, string word) {
-        bool answer = false;
-        vector<bool> temp(board[0].size(), false);
-        vector<vector<bool>> check(board.size(), temp);
-        vector<pair<int, int>> found;
-        for (int i = 0; i < board.size(); i++) {
-            for (int j = 0; j < board[0].size(); j++) {
-                if (word.find(board[i][j]) == -1) check[i][j] = true;
-                if (board[i][j] == word[0]) found.push_back(make_pair(i, j));
+vector<int> asymmetric(vector<int> heights, vector<vector<int>>& dp) {
+    int n = heights.size();
+    vector<int> results(n);
+    results[0] = 0;
+    for (int i = 2; i <= n; i++) {
+        int minimum = 2147483647;
+        for (int j = 0; j <= n - i; j++) {
+            // cout << i << " " << j << endl;
+            int value;
+            if (i == 2) {
+                value = abs(heights[j] - heights[j + 1]);
+                dp[i - 1].push_back(value);
             }
-        }
-        for (int i = 0; i < found.size(); i++) {
-            find(answer, 0, found[i], found[i], check, board, word);
-            if (answer == true) return answer;
-        }
-        return answer;
-    }
-
-    void find(bool& found, int i, pair<int, int> grid, pair<int, int> prev, vector<vector<bool>> check, vector<vector<char>> board, string word) {
-        int x = grid.first;
-        int y = grid.second;
-        if (board[x][y] != word[i]) return;
-        for (auto i : check) {
-            for (auto j : i) {
-                if (j == false) cout << ". ";
-                else cout << "x ";
+            else {
+                value = dp[i - 3][j + 1] + abs(heights[j] - heights[j + i - 1]);
+                dp[i - 1].push_back(value);
             }
-            cout << "\n";
+            
+            // cout << value << " " << minimum << "\n" << endl;
+            minimum = min(minimum, value);
         }
-        cout << "\n";
-        if (i == word.size() - 1 && word[i] == board[x][y]) {
-            found = true;
-            return;
-        }
-        check[prev.first][prev.second] = true;
-        vector<pair<int, int>> array;
-        if (x >= 1 && board[x - 1][y] == word[i + 1] && check[x - 1][y] == false) array.push_back(make_pair(x - 1, y));
-        if (y >= 1 && board[x][y - 1] == word[i + 1] && check[x][y - 1] == false) array.push_back(make_pair(x, y - 1));
-        if (x < board.size() - 1 && board[x + 1][y] == word[i + 1] && check[x + 1][y] == false) array.push_back(make_pair(x + 1, y));
-        if (y < board[0].size() - 1 && board[x][y + 1] == word[i + 1] && check[x][y + 1] == false) array.push_back(make_pair(x, y + 1));
-        for (auto j : array) {
-            find(found, i + 1, j, grid, check, board, word);
-            if (found) return;
-        }
-        
+        results[i - 1] = minimum;
     }
-};
+    return results;
+}
 
 int main() {
-    Solution solution;
-    vector<vector<char>> board = 
-    {
-    {'C', 'A', 'A'},
-    {'A', 'A', 'A'},
-    {'B', 'C', 'D'}
-    };
-    if(solution.exist(board, "AAB")) cout << "nice" << endl;
-    else cout << "nah";
+    int n;
+    cin >> n;
+    vector<int> heights(n);
+    for (int i = 0; i < n; i++) {
+        cin >> heights[i];
+    }
+    // int n = 5000;
+    // vector<int> heights;
+    // for (int i = 0; i < n; i++) {
+    //     heights.push_back(47501 + i);
+    // }
+    vector<vector<int>> dp(n);
+    for (int i = 0; i < n; i++) dp[0].push_back(0);
+    vector<int> val = asymmetric(heights, dp);
+    for (int i = 0; i < n - 1; i++) cout << val[i] << " ";
+    cout << val[n - 1];
 }
