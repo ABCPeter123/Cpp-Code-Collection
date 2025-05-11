@@ -1,49 +1,128 @@
 #include <iostream>
-#include <string.h>
 using namespace std;
 
 int main() {
-    int N,M,R,C;
-    cin >> N >> M >> R >> C;
-    char poster[N][M];
-    memset(poster, 'a', M * N);
-    if ((R == N || M == C) && !(R == N && M == C) && !(R == 0 || C == 0)) {
-        if ((R == N && (M % 2 == 0) && (M + C) % 2 == 1) || (M == C && (N % 2 == 0) && (N + R) % 2 == 1)) {
-            cout << "IMPOSSIBLE\n";
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int n,m,r,c;
+    cin >> n >> m >> r >> c;
+    if (r == 0 && c == 0) {
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < m - 1; j++) cout << "a";
+            cout << "b\n";
+        }
+        for (int j = 0; j < m - 1; j++) cout << "b";
+        cout << "c";
+        return 0;
+    }
+    if (r == n && c == m) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) cout << "a";
+            cout << "\n";
+        }
+        return 0;
+    }
+    if (m == c) {
+        if (r % 2 == 1 && n % 2 == 0) {cout << "IMPOSSIBLE"; return 0;}
+        if (r % 2 == 1) {
+            for (int i = 0; i < (r - 1) / 2; i++) {
+                for (int j = 0; j < m; j++) cout << "a";
+                cout << "\n";
+            }
+            for (int i = (r - 1) / 2; i < (n - 1) / 2; i++) {
+                cout << "a";
+                for (int j = 1; j < m; j++) cout << "b";
+                cout << "\n";
+            }
+            for (int j = 0; j < m; j++) cout << "a";
+            cout << "\n";
+            for (int i = (r - 1) / 2; i < (n - 1) / 2; i++) {
+                cout << "a";
+                for (int j = 1; j < m; j++) cout << "b";
+                cout << "\n";
+            }
+            for (int i = 0; i < (r - 1) / 2; i++) {
+                for (int j = 0; j < m; j++) cout << "a";
+                cout << "\n";
+            }
             return 0;
         }
+        for (int i = 0; i < r / 2; i++) {
+            for (int j = 0; j < m; j++) cout << "a";
+            cout << "\n";
+        }
+        for (int i = r / 2; i < n - r / 2; i++) {
+            cout << "a";
+            for (int j = 1; j < m; j++) cout << "b";
+            cout << "\n";
+        }
+        for (int i = 0; i < r / 2; i++) {
+            for (int j = 0; j < m; j++) cout << "a";
+            cout << "\n";
+        }
+        return 0;
     }
-    if (C == M) {
-        if (R % 2 == 0) {
-            for (int i = (R / 2); i < (N - R / 2); i++) poster[i][M - 1] = 'b';
+    if (n == r) {
+        if (c % 2 == 1 && m % 2 == 0) {cout << "IMPOSSIBLE"; return 0;}
+        if (c % 2 == 0) {
+            for (int j = 0; j < m; j++) cout << "a";
+            cout << "\n";
+            for (int i = 1; i < n; i++) {
+                for (int j = 0; j < c / 2; j++) cout << "a";
+                for (int j = c / 2; j < m - c / 2; j++) cout << "b";
+                for (int j = 0; j < c / 2; j++) cout << "a";
+                cout << "\n";
+            }
+            return 0;
         }
-        else {
-            for (int i = 0; i < N; i++) poster[i][M - 1] = 'b';
-            for (int i = ((N - R) / 2); i < ((N + R) / 2); i++) poster[i][M - 1] = 'a';
-        }
-    } else if (R == N) {
-        if (C % 2 == 0) {
-            for (int i = (C / 2); i < (M - C / 2); i++) poster[N - 1][i] = 'b';
-        }
-        else {
-            for (int i = 0; i < M; i++) poster[N - 1][i] = 'b';
-            for (int i = (M - C) / 2; i < (M + C) / 2; i++) poster[N - 1][i] = 'a';
-        }
-    } else {
-        for (int i = R; i < N; i++) {
-            poster[i][M - 1] = 'b';
-        }
-        for (int j = C; j < M; j++) {
-            poster[N - 1][j] = 'b';
-        }
-        if (R == 0 || C == 0) {
-            poster[N - 1][M - 1] = 'c';
-        }
-    }
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            cout << poster[i][j];
-        }
+        for (int j = 0; j < m; j++) cout << "a";
         cout << "\n";
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < (c - 1) / 2; j++) cout << "a";
+            for (int j = (c - 1) / 2; j < (m - 1) / 2; j++) cout << "b";
+            cout << "a";
+            for (int j = (c - 1) / 2; j < (m - 1) / 2; j++) cout << "b";
+            for (int j = 0; j < (c - 1) / 2; j++) cout << "a";
+            cout << "\n";
+        }
+        return 0;
+    }
+    if (r == 0) {
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < m; j++) cout << "a";
+            cout << "\n";
+        }
+        for (int i = r; i < n - 1; i++) {
+            for (int j = 0; j < c; j++) cout << "a";
+            for (int j = c; j < m; j++) cout << "b";
+            cout << "\n";
+        }
+        for (int j = 0; j < c; j++) cout << "a";
+        for (int j = c; j < m; j++) cout << "c";
+        return 0;
+    }
+    if (c == 0) {
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < m; j++) cout << "a";
+            cout << "\n";
+        }
+        for (int i = r; i < n; i++) {
+            for (int j = 0; j < c; j++) cout << "a";
+            for (int j = c; j < m - 1; j++) cout << "b";
+            cout << "c";
+            cout << "\n";
+        }
+        return 0;
+    }
+    if (r < n && c < m) {
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < m; j++) cout << "a";
+            cout << "\n";
+        }
+        for (int i = r; i < n; i++) {
+            for (int j = 0; j < c; j++) cout << "a";
+            for (int j = c; j < m; j++) cout << "b";
+            cout << "\n";
+        }
     }
 }

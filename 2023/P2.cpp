@@ -1,48 +1,37 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
-vector<int> asymmetric(vector<int> heights, vector<vector<int>>& dp) {
-    int n = heights.size();
-    vector<int> results(n);
-    results[0] = 0;
-    for (int i = 2; i <= n; i++) {
-        int minimum = 2147483647;
-        for (int j = 0; j <= n - i; j++) {
-            // cout << i << " " << j << endl;
-            int value;
-            if (i == 2) {
-                value = abs(heights[j] - heights[j + 1]);
-                dp[i - 1].push_back(value);
-            }
-            else {
-                value = dp[i - 3][j + 1] + abs(heights[j] - heights[j + i - 1]);
-                dp[i - 1].push_back(value);
-            }
-            
-            // cout << value << " " << minimum << "\n" << endl;
-            minimum = min(minimum, value);
-        }
-        results[i - 1] = minimum;
-    }
-    return results;
-}
+#define INT_MAX 9223372036854775807
+#define ll long long
 
 int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
     int n;
     cin >> n;
-    vector<int> heights(n);
+    int h[n];
     for (int i = 0; i < n; i++) {
-        cin >> heights[i];
+        cin >> h[i];
     }
-    // int n = 5000;
-    // vector<int> heights;
-    // for (int i = 0; i < n; i++) {
-    //     heights.push_back(47501 + i);
+    cout << 0 << " ";
+    if (n == 1) return 0;
+    if (n == 2) {cout << abs(h[1] - h[0]); return 0;}
+
+    vector<vector<ll>> dp(n - 2, vector<ll>());
+
+    for (int i = 0; i < n - 1; i++) {
+        ll minimum = INT_MAX;
+        for (int j = 0; j < n - 1 - i; j++) {
+            ll temp = abs(h[j] - h[j + i + 1]);
+            if (i >= 2) temp += dp[i - 2][j];
+            minimum = min(temp, minimum);
+            if (j > 0 && j < n - 2 - i) dp[i].push_back(temp);
+        }
+        cout << minimum << " ";
+    }
+    // cout << "\n";
+    // for (auto i : dp) {
+    //     for (auto j : i) cout << j << " ";
+    //     cout << "\n";
     // }
-    vector<vector<int>> dp(n);
-    for (int i = 0; i < n; i++) dp[0].push_back(0);
-    vector<int> val = asymmetric(heights, dp);
-    for (int i = 0; i < n - 1; i++) cout << val[i] << " ";
-    cout << val[n - 1];
 }

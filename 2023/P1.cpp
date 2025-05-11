@@ -1,29 +1,40 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
     int n;
     cin >> n;
-    int tiles[2][n];
-    for (int j = 0; j < 2; j++) {
-        for (int i = 0; i < n; i++) {
-            cin >> tiles[j][i];
-        }
-    }
-    int cnt = 0;
+    int cnt1 = 0, cnt2 = 0;
+    vector<int> temp;
     for (int i = 0; i < n; i++) {
-        if (tiles[0][i] == 1) {
-            cnt += 3;
-            if (i < n - 1 && tiles[0][i + 1] == 1) cnt -= 2;
-            if (i % 2 == 0 && tiles[1][i] == 1) cnt--;
+        int t;
+        cin >> t;
+        temp.push_back(t);
+        if (t == 1) {
+            cnt1++;
+            if (i != 0 && temp[i - 1] == 1) cnt2++;
         }
     }
     for (int i = 0; i < n; i++) {
-        if (tiles[1][i] == 1) {
-            cnt += 3;
-            if (i < n - 1 && tiles[1][i + 1] == 1) cnt -= 2;
-            if (i % 2 == 0 && tiles[0][i] == 1) cnt--;
+        int t;
+        cin >> t;
+        if (t == 1) {
+            cnt1++;
+            if (i != 0 && temp[i - 1] == 1) cnt2++;
+            if (i % 2 == 0 && temp[i] == 1) cnt2++;
         }
+        temp[i] = t;
     }
-    cout << cnt;
+    cout << 3 * cnt1 - 2 * cnt2;
 }
+
+/**
+0 1 1 1 0 1 1
+0 1 1 0 1 0 1
+
+24 - 10
+
+ */

@@ -59,11 +59,11 @@ public:
                 cout << "The result is found at " << i - pattern.length() << endl;
             }
         }
-    }
+    }   
 };
 
-// int main() {
-//     string text = "AABAABAABBA";
-//     SuffixTrie S(text);
-//     S.search("AABA");
-// }
+int main() {
+    string text = "AABAABAABBA";
+    SuffixTrie S(text);
+    S.search("AABA");
+}

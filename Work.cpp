@@ -1,110 +1,57 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
+struct TreeNode {
+   int val;
+    TreeNode *left;
+    TreeNode *right;
+  TreeNode() : val(0), left(nullptr), right(nullptr) {}
+   TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+   TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-class MaxHeap { 
+class Node {
 public:
-    vector<int> heap_list;
-    int count;
+    int val;
+    vector<Node*> children;
 
-    MaxHeap() {
-        heap_list = {};
-        count = 0
+    Node() {}
+
+    Node(int _val) {
+        val = _val;
     }
 
-    int parent_idx(int idx) {
-        return idx / 2;
+    Node(int _val, vector<Node*> _children) {
+        val = _val;
+        children = _children;
     }
+};
 
-    int left_child_idx(int idx) {
-        return idx * 2;
+class Solution {
+public:
+    int trapRainWater(vector<vector<int>>& heightMap) {
+        
     }
-    
-    int right_child_idx(int idx) {
-        return idx * 2 + 1;
-    }
-
-    bool child_present(int idx) {
-        return left_child_idx(idx) <= count;
-    }
-
-    void add(int element) {
-        count++;
-        heap_list.push_back(element);
-        heapify_up();
-    }
-
-    void heapify_up() {
-        int idx = count;
-        while (parent_idx(idx) > 0) {
-            int child = heap_list[idx];
-            int parent = heap_list[parent_idx(idx)];
-            if (parent < child) {
-                heap_list[idx] = parent;
-                heap_list[parent_idx(idx)] = child;
-            }
-            idx = parent_idx(idx);
-        }
-    }
-
-    int retrieve_max() {
-        if (count == 0) return NULL;
-        int max_value = heap_list[1];
-        heap_list[1] = heap_list[count];
-        count--;
-        heap_list.erase(heap_list.back());
-        heapify_down();
-        return max_value;
-    }
-
-  def heapify_down(self):
-    idx = 1
-    while self.child_present(idx):
-      print("Heapifying down!")
-      larger_child_idx = self.get_larger_child_idx(idx)
-      child = self.heap_list[larger_child_idx]
-      parent = self.heap_list[idx]
-      if parent < child:
-        self.heap_list[idx] = child
-        self.heap_list[larger_child_idx] = parent
-      idx = larger_child_idx
-    print("HEAP RESTORED! {0}".format(self.heap_list))
-    print("") 
-
-  def get_larger_child_idx(self, idx):
-    if self.right_child_idx(idx) > self.count:
-      print("There is only a left child")
-      return self.left_child_idx(idx)
-    else:
-      left_child = self.heap_list[self.left_child_idx(idx)]
-      right_child = self.heap_list[self.right_child_idx(idx)]
-      if left_child > right_child:
-        print("Left child "+ str(left_child) + " is larger than right child " + str(right_child))
-        return self.left_child_idx(idx)
-      else:
-        print("Right child " + str(right_child) + " is larger than left child " + str(left_child))
-        return self.right_child_idx(idx)
-
-def heapsort(lst):
-  sort = []
-  max_heap = MaxHeap()
-  for idx in lst:
-    max_heap.add(idx)
-  while max_heap.count > 0:
-    max_value = max_heap.retrieve_max()
-    sort.insert(0, max_value)
-  return sort
+};
 
 
+/**
+1 9 1 4 10 4
+7 10 6 3 4 5
+2 8 3 4 7 6
+8 1 9 1 3 3
+
+1 9 1 4 10 4
+7 10 6 4 4 5
+2         6
+8 1 9 1 3 3
+
+ */
 
 
 int main() {
-    
+    Solution solution;
+    vector<int> s = {8,17,14,8,14,12,16,11,4,14,19,6,8,8,2,10,2,1,1,18};
+    for (auto i : solution.countVisitedNodes(s)) cout << i << endl;
+
 }
